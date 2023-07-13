@@ -16,16 +16,13 @@ li {
   list-style: none;
 }
 
-html, body {
+body {
+  background-color: #04263d;
   height: 100%;
 }
 
-body {
-  background-color: #04263d;
-}
-
 ::placeholder {
-  color: white;
+  color: rgb(219, 219, 219);
 }
 
 /*---------------------------------------*/

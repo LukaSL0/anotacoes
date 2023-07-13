@@ -31,7 +31,7 @@ export default function Bloco() {
         } else {
             const info = {
                 tipo: "adicionar",
-                conteudo: input.value
+                conteudoEnviado: input.value
             }
             
             await Api.post("/anotacoes/database", info);
@@ -45,7 +45,17 @@ export default function Bloco() {
         const anotacaoRef = document.querySelector(`.anotacao-${id}`);
         const info = {
             tipo: "deletar",
-            conteudo: anotacaoRef.innerHTML
+            conteudoEnviado: anotacaoRef.innerHTML
+        }
+
+        await Api.post("/anotacoes/database", info);
+    }
+    
+    const editarAnotacao = async (e) => {
+        const id = e.target.className;
+        const anotacaoRef = document.querySelector(`.anotacao-${id}`);
+        const info = {
+            tipo: "editar"
         }
 
         await Api.post("/anotacoes/database", info);
@@ -57,7 +67,7 @@ export default function Bloco() {
                 <h1>Luka Notes</h1>
                 <div className="bloco__header__adicionar">
                     <form onSubmit={(e) => {adicionarAnotacao(e)}}>
-                        <input type="text" className="conteudo visibility" />
+                        <input type="text" placeholder="Digite sua anotação" className="conteudo visibility" />
                     </form>
                     <button onClick={toggleInput}>+</button>
                 </div>
@@ -67,6 +77,7 @@ export default function Bloco() {
                     anotacoes.map(( anotacao, i ) => (
                         <div key={i} className="bloco__lista__anotacao">
                             <li className={`anotacao-id-${i}`}>{anotacao.conteudo}</li>
+                            <button className={`id-${i}`} onClick={(e) => {editarAnotacao(e)}}>E</button>
                             <button className={`id-${i}`} onClick={(e) => {deletearAnotacao(e)}}>X</button>
                         </div>
                     ))

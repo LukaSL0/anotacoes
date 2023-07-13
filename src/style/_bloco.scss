@@ -1,9 +1,10 @@
 .bloco {
     display: block;
     margin: 5% auto;
+    padding: 0 0 1% 0;
     background-color: white;
     border-radius: 15px 15px 10px 10px;
-    height: 500px;
+    height: auto;
     width: 70%;
 
     &__header {
