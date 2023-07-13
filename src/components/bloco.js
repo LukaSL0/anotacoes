@@ -30,18 +30,16 @@ export default function Bloco() {
     const adicionarAnotacao = async (e) => {
         e.preventDefault();
         const input = document.querySelector('.conteudo');
-        const generatedId = uniqueId();
+        const idEnviado = uniqueId();
         if (!input.value) {
             alert("[204] Nenhum conteúdo enviado");
             return;
         }
-
         const info = {
-            conteudoEnviado: input.value,
-            idEnviado: generatedId
+            conteudoEnviado: input.value
         }
         
-        await Api.post("/anotacoes/database", info);
+        await Api.post(`/anotacoes/database/${encodeURIComponent(idEnviado)}`, info);
         input.classList.toggle('visibility');
         input.value = "";
     }
@@ -51,17 +49,18 @@ export default function Bloco() {
         const anotacaoRef = document.querySelector(`.anotacao-${id}`);
         const idEnviado = anotacaoRef.id;
 
-        await Api.delete(`/anotacoes/database/${idEnviado}`);
+        await Api.delete(`/anotacoes/database/${encodeURIComponent(idEnviado)}`);
     }
     
     const editarAnotacao = async (e) => {
         const id = e.target.className;
         const anotacaoRef = document.querySelector(`.anotacao-${id}`);
+        const idEnviado = anotacaoRef.id;
         const info = {
-            tipo: "editar"
+            novoConteudo: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         }
 
-        await Api.put("/anotacoes/database", info);
+        await Api.put(`/anotacoes/database/${encodeURIComponent(idEnviado)}`, info);
     }
 
     return (
