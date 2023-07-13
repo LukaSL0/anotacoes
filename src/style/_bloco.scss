@@ -68,8 +68,18 @@
             display: flex;
             padding: 2% 2% 1% 2%;
 
+            textarea {
+                resize: none;
+                border: 1px solid rgba(0, 0, 0, 0.01);
+                outline: none;
+            }
+
             button {
                 cursor: pointer;
+            }
+
+            .botoesConfirm {
+                display: none;
             }
         }
     }

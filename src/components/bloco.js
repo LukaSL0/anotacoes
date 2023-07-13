@@ -9,7 +9,7 @@ export default function Bloco() {
         const fetchData = async () => {
             try {
                 const res = await Api.get('/anotacoes')
-                const data = res.data;
+                const { data } = res;
                 setAnotacoes(data);
             } catch (err) {
                 console.log(err.message);
@@ -30,32 +30,98 @@ export default function Bloco() {
             alert("[204] Nenhum conteúdo enviado");
             return;
         }
-        const info = {
-            conteudoEnviado: input.value
+        try {
+            const info = {
+                conteudoEnviado: input.value
+            }
+
+            const res = await Api.post(`/anotacoes/database/`, info);
+            input.classList.toggle('visibility');
+            input.value = "";
         }
-        
-        await Api.post(`/anotacoes/database/`, info);
-        input.classList.toggle('visibility');
-        input.value = "";
+        catch (err) {
+            console.log(err);
+        }
     }
 
     const deletearAnotacao = async (e) => {
-        const id = e.target.className;
-        const anotacaoRef = document.querySelector(`.anotacao-${id}`);
+        const id = e.currentTarget.id;
+        const anotacaoRef = document.querySelector(`.anotacao-id-${id}`);
         const idEnviado = anotacaoRef.id;
 
-        await Api.delete(`/anotacoes/database/${encodeURIComponent(idEnviado)}`);
+        try {
+            const res = await Api.delete(`/anotacoes/database/${encodeURIComponent(idEnviado)}`);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
     
-    const editarAnotacao = async (e) => {
-        const id = e.target.className;
-        const anotacaoRef = document.querySelector(`.anotacao-${id}`);
-        const idEnviado = anotacaoRef.id;
-        const info = {
-            novoConteudo: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        }
+    const editarAnotacao = (e) => {
+        const id = e.currentTarget.id;
+        const anotacaoRef = document.querySelector(`.anotacao-id-${id}`);
+        const botaoConfirm = document.querySelector(`.botaoConfirm-${id}`);
 
-        await Api.put(`/anotacoes/database/${encodeURIComponent(idEnviado)}`, info);
+        anotacaoRef.readOnly = false;
+        anotacaoRef.style.border = "1px solid grey";
+        anotacaoRef.focus();
+
+        e.currentTarget.style.display = "none";
+        botaoConfirm.style.display = "block"
+    }
+
+    const cancelarEdicao = async (e, i) => {
+        const anotacaoRef = document.querySelector(`.${e.target.className}`);
+        if (anotacaoRef.readOnly) {
+          return;
+        }
+      
+        if (e.key === "Escape") {
+            const id = anotacaoRef.id;
+            const botaoConfirm = document.querySelector(`.botaoConfirm-${i}`);
+            const botaoEdit = document.querySelector(`.botaoEdit-${i}`);
+
+            anotacaoRef.readOnly = true;
+            anotacaoRef.style.border = "1px solid rgba(0, 0, 0, 0.01)";
+
+            try {
+                const res = await Api.get('/anotacoes');
+                const { data } = res;
+                const acharAnotacao = data.find(anotacao => anotacao._id === id);
+                if (acharAnotacao) {
+                    anotacaoRef.value = acharAnotacao.conteudo;
+                    botaoConfirm.style.display = "none";
+                    botaoEdit.style.display = "block";
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+
+    const enviarEdicao = async (e) => {
+        const id = e.currentTarget.id;
+        const anotacaoRef = document.querySelector(`.anotacao-id-${id}`);
+        const idEnviado = anotacaoRef.id;
+        const conteudo = anotacaoRef.value;
+        const botaoEdit = document.querySelector(`.botaoEdit-${id}`);
+
+        anotacaoRef.readOnly = true;
+        anotacaoRef.style.border = "1px solid rgba(0, 0, 0, 0.01)";
+
+        e.currentTarget.style.display = "none";
+        botaoEdit.style.display = "block";
+
+        try {
+            const info = {
+                novoConteudo: conteudo
+            }
+
+            const res = await Api.put(`/anotacoes/database/${encodeURIComponent(idEnviado)}`, info);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -73,9 +139,10 @@ export default function Bloco() {
                 {
                     anotacoes.map(( anotacao, i ) => (
                         <div key={i} className="bloco__lista__anotacao">
-                            <li id={anotacao._id} className={`anotacao-id-${i}`}><i className="fa-solid fa-circle" /> {anotacao.conteudo}</li>
-                            <button className={`id-${i}`} onClick={(e) => {editarAnotacao(e)}}><i className="fa-solid fa-pencil" /></button>
-                            <button className={`id-${i}`} onClick={(e) => {deletearAnotacao(e)}}><i className="fa-solid fa-circle-xmark" /></button>
+                            <textarea defaultValue={anotacao.conteudo} onKeyDown={(e) => {cancelarEdicao(e, i)}} readOnly={true} id={anotacao._id} className={`anotacao-id-${i}`}></textarea>
+                            <button className={`botaoConfirm-${i} botoesConfirm`} id={`${i}`} onClick={(e) => {enviarEdicao(e)}}><i className="fa-solid fa-check" /></button>
+                            <button className={`botaoEdit-${i}`} id={`${i}`} onClick={(e) => {editarAnotacao(e)}}><i className="fa-solid fa-pencil" /></button>
+                            <button className={`botaoDelete-${i}`} id={`${i}`} onClick={(e) => {deletearAnotacao(e)}}><i className="fa-solid fa-circle-xmark" /></button>
                         </div>
                     ))
                 }
