@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import autosize from "autosize";
 import Api from "../Api.js";
 
 export default function Bloco() {
@@ -63,7 +64,6 @@ export default function Bloco() {
         const botaoConfirm = document.querySelector(`.botaoConfirm-${id}`);
 
         anotacaoRef.readOnly = false;
-        anotacaoRef.style.border = "1px solid grey";
         anotacaoRef.focus();
 
         e.currentTarget.style.display = "none";
@@ -82,7 +82,6 @@ export default function Bloco() {
             const botaoEdit = document.querySelector(`.botaoEdit-${i}`);
 
             anotacaoRef.readOnly = true;
-            anotacaoRef.style.border = "1px solid rgba(0, 0, 0, 0.01)";
 
             try {
                 const res = await Api.get('/anotacoes');
@@ -107,7 +106,6 @@ export default function Bloco() {
         const botaoEdit = document.querySelector(`.botaoEdit-${id}`);
 
         anotacaoRef.readOnly = true;
-        anotacaoRef.style.border = "1px solid rgba(0, 0, 0, 0.01)";
 
         e.currentTarget.style.display = "none";
         botaoEdit.style.display = "block";
@@ -124,6 +122,9 @@ export default function Bloco() {
         }
     }
 
+    const textareas = document.getElementsByTagName("textarea");
+    autosize(textareas);
+
     return (
         <section className="bloco">
             <div className="bloco__header">
@@ -139,7 +140,7 @@ export default function Bloco() {
                 {
                     anotacoes.map(( anotacao, i ) => (
                         <div key={i} className="bloco__lista__anotacao">
-                            <textarea defaultValue={anotacao.conteudo} onKeyDown={(e) => {cancelarEdicao(e, i)}} readOnly={true} id={anotacao._id} className={`anotacao-id-${i}`}></textarea>
+                            <textarea rows={`3`} defaultValue={anotacao.conteudo} onKeyDown={(e) => {cancelarEdicao(e, i)}} readOnly={true} id={anotacao._id} className={`anotacao-id-${i}`}></textarea>
                             <button className={`botaoConfirm-${i} botoesConfirm`} id={`${i}`} onClick={(e) => {enviarEdicao(e)}}><i className="fa-solid fa-check" /></button>
                             <button className={`botaoEdit-${i}`} id={`${i}`} onClick={(e) => {editarAnotacao(e)}}><i className="fa-solid fa-pencil" /></button>
                             <button className={`botaoDelete-${i}`} id={`${i}`} onClick={(e) => {deletearAnotacao(e)}}><i className="fa-solid fa-circle-xmark" /></button>
