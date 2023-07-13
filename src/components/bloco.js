@@ -73,9 +73,9 @@ export default function Bloco() {
                 {
                     anotacoes.map(( anotacao, i ) => (
                         <div key={i} className="bloco__lista__anotacao">
-                            <li id={anotacao._id} className={`anotacao-id-${i}`}>{anotacao.conteudo}</li>
-                            <button className={`id-${i}`} onClick={(e) => {editarAnotacao(e)}}>E</button>
-                            <button className={`id-${i}`} onClick={(e) => {deletearAnotacao(e)}}>X</button>
+                            <li id={anotacao._id} className={`anotacao-id-${i}`}><i className="fa-solid fa-circle" /> {anotacao.conteudo}</li>
+                            <button className={`id-${i}`} onClick={(e) => {editarAnotacao(e)}}><i className="fa-solid fa-pencil" /></button>
+                            <button className={`id-${i}`} onClick={(e) => {deletearAnotacao(e)}}><i className="fa-solid fa-circle-xmark" /></button>
                         </div>
                     ))
                 }
