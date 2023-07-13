@@ -10,7 +10,7 @@ export default function Bloco() {
             try {
                 const res = await Api.get('/anotacoes')
                 const data = res.data;
-                console.log(data);
+                setAnotacoes(data);
             } catch (err) {
                 console.log(err.message);
             }
@@ -18,16 +18,21 @@ export default function Bloco() {
         fetchData();
     }, [])
 
+    const adicionarAnotacao = async () => {
+        
+    }
+
     return (
         <section className="bloco">
             <div className="bloco__header">
                 <h1>Luka Notes</h1>
+                <button onClick={adicionarAnotacao}>+</button>
             </div>
             <div className="bloco__lista">
                 <ul>
                     {
                         anotacoes.map(( anotacao, i ) => (
-                            <li>{anotacao[i]}</li>
+                            <li key={i}>{anotacao.conteudo}</li>
                         ))
                     }
                 </ul>
