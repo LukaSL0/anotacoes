@@ -1,7 +1,9 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Api from "../Api.js";
 
 export default function Bloco() {
+    
+    const [anotacoes, setAnotacoes] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,8 +19,19 @@ export default function Bloco() {
     }, [])
 
     return (
-        <div>
-            {/*Logica*/}
-        </div>
+        <section className="bloco">
+            <div className="bloco__header">
+                <h1>Luka Notes</h1>
+            </div>
+            <div className="bloco__lista">
+                <ul>
+                    {
+                        anotacoes.map(( anotacao, i ) => (
+                            <li>{anotacao[i]}</li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </section>
     )
 }

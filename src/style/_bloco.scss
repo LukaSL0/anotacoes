@@ -1,0 +1,29 @@
+.bloco {
+    display: block;
+    margin: 5% auto;
+    background-color: white;
+    border-radius: 15px 15px 10px 10px;
+    height: 500px;
+    width: 70%;
+
+    &__header {
+        background-color: #07395a;
+        height: auto;
+        border-radius: 10px 10px 0 0;
+        padding: 2%;
+
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 35px;
+            letter-spacing: 1px;
+        }
+    }
+
+    &__lista {
+
+        ul li {
+            padding: 2%;
+        }
+    }
+}
