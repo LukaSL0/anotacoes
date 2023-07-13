@@ -5,6 +5,10 @@ export default function Bloco() {
     
     const [anotacoes, setAnotacoes] = useState([]);
 
+    const uniqueId = () => {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -26,29 +30,28 @@ export default function Bloco() {
     const adicionarAnotacao = async (e) => {
         e.preventDefault();
         const input = document.querySelector('.conteudo');
-        if (input.value === "") {
+        const generatedId = uniqueId();
+        if (!input.value) {
             alert("[204] Nenhum conteúdo enviado");
-        } else {
-            const info = {
-                tipo: "adicionar",
-                conteudoEnviado: input.value
-            }
-            
-            await Api.post("/anotacoes/database", info);
-            input.classList.toggle('visibility');
-            input.value = "";
+            return;
         }
+
+        const info = {
+            conteudoEnviado: input.value,
+            idEnviado: generatedId
+        }
+        
+        await Api.post("/anotacoes/database", info);
+        input.classList.toggle('visibility');
+        input.value = "";
     }
 
     const deletearAnotacao = async (e) => {
         const id = e.target.className;
         const anotacaoRef = document.querySelector(`.anotacao-${id}`);
-        const info = {
-            tipo: "deletar",
-            conteudoEnviado: anotacaoRef.innerHTML
-        }
+        const idEnviado = anotacaoRef.id;
 
-        await Api.post("/anotacoes/database", info);
+        await Api.delete(`/anotacoes/database/${idEnviado}`);
     }
     
     const editarAnotacao = async (e) => {
@@ -58,7 +61,7 @@ export default function Bloco() {
             tipo: "editar"
         }
 
-        await Api.post("/anotacoes/database", info);
+        await Api.put("/anotacoes/database", info);
     }
 
     return (
@@ -76,7 +79,7 @@ export default function Bloco() {
                 {
                     anotacoes.map(( anotacao, i ) => (
                         <div key={i} className="bloco__lista__anotacao">
-                            <li className={`anotacao-id-${i}`}>{anotacao.conteudo}</li>
+                            <li id={anotacao.id} className={`anotacao-id-${i}`}>{anotacao.conteudo}</li>
                             <button className={`id-${i}`} onClick={(e) => {editarAnotacao(e)}}>E</button>
                             <button className={`id-${i}`} onClick={(e) => {deletearAnotacao(e)}}>X</button>
                         </div>
