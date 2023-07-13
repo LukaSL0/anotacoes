@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Api = axios.create({
-    baseURL: process.env.API_URL
+    baseURL: `https://luka-api-lukasl0.vercel.app/`
 })
 
 export default Api;
