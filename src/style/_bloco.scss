@@ -22,27 +22,55 @@
             letter-spacing: 1px;
             text-align: center;
         }
-        button {
-            border-radius: 50%;
-            margin-left: auto;
-            cursor: pointer;
-            background-color: rgba(68, 80, 255, 0.25);
-            color: white;
-            width: 40px;
-            height: 40px;
-            font-size: 25px;
-            border: none;
-            transition: all 0.25s linear;
-            &:hover {
-                background-color: rgba(68, 80, 255, 0.5);
+
+        &__adicionar {
+            input {
+                position: absolute;
+                border-radius: 8px;
+                border: none;
+                outline: none;
+                padding: 0.7% 1%;
+                margin-left: -200px;
+                margin-top: 3px;
+                background-color: rgba(11, 82, 129, 0.5);
+                transition: all 0.2s linear;
+                color: white;
+                &:hover {
+                    background-color: rgba(11, 82, 129, 0.7);
+                }
+                &:focus {
+                    background-color: rgba(11, 82, 129, 0.7);
+                }
+            }
+
+            button {
+                z-index: 1;
+                border-radius: 50%;
+                margin-left: auto;
+                cursor: pointer;
+                background-color: rgba(68, 80, 255, 0.25);
+                color: white;
+                width: 40px;
+                height: 40px;
+                font-size: 25px;
+                border: none;
+                transition: all 0.25s linear;
+                &:hover {
+                    background-color: rgba(68, 80, 255, 0.5);
+                }
             }
         }
     }
 
     &__lista {
 
+
         ul li {
             padding: 2% 2% 1% 2%;
         }
     }
+}
+
+.visibility {
+    display: none;
 }
