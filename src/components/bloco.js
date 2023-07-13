@@ -5,10 +5,6 @@ export default function Bloco() {
     
     const [anotacoes, setAnotacoes] = useState([]);
 
-    const uniqueId = () => {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
-    }
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,7 +26,6 @@ export default function Bloco() {
     const adicionarAnotacao = async (e) => {
         e.preventDefault();
         const input = document.querySelector('.conteudo');
-        const idEnviado = uniqueId();
         if (!input.value) {
             alert("[204] Nenhum conteúdo enviado");
             return;
@@ -39,7 +34,7 @@ export default function Bloco() {
             conteudoEnviado: input.value
         }
         
-        await Api.post(`/anotacoes/database/${encodeURIComponent(idEnviado)}`, info);
+        await Api.post(`/anotacoes/database/`, info);
         input.classList.toggle('visibility');
         input.value = "";
     }
@@ -78,7 +73,7 @@ export default function Bloco() {
                 {
                     anotacoes.map(( anotacao, i ) => (
                         <div key={i} className="bloco__lista__anotacao">
-                            <li id={anotacao.id} className={`anotacao-id-${i}`}>{anotacao.conteudo}</li>
+                            <li id={anotacao._id} className={`anotacao-id-${i}`}>{anotacao.conteudo}</li>
                             <button className={`id-${i}`} onClick={(e) => {editarAnotacao(e)}}>E</button>
                             <button className={`id-${i}`} onClick={(e) => {deletearAnotacao(e)}}>X</button>
                         </div>
