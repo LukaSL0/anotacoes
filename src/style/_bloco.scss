@@ -63,10 +63,13 @@
     }
 
     &__lista {
-
-
-        ul li {
+        &__anotacao {
+            display: flex;
             padding: 2% 2% 1% 2%;
+
+            button {
+                cursor: pointer;
+            }
         }
     }
 }

@@ -4,7 +4,6 @@ import Api from "../Api.js";
 export default function Bloco() {
     
     const [anotacoes, setAnotacoes] = useState([]);
-    const [atualizar, setAtualizar] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,7 +16,7 @@ export default function Bloco() {
             }
         }
         fetchData();
-    }, [atualizar])
+    })
 
     const toggleInput = () => {
         const input = document.querySelector('.conteudo');
@@ -27,14 +26,29 @@ export default function Bloco() {
     const adicionarAnotacao = async (e) => {
         e.preventDefault();
         const input = document.querySelector('.conteudo');
-        const info = {
-            conteudo: input.value
+        if (input.value === "") {
+            alert("[204] Nenhum conteúdo enviado");
+        } else {
+            const info = {
+                tipo: "adicionar",
+                conteudo: input.value
+            }
+            
+            await Api.post("/anotacoes/database", info);
+            input.classList.toggle('visibility');
+            input.value = "";
         }
-        
-        const res = await Api.post("/anotacoes/database", info);
-        const data = res.data;
-        input.classList.toggle('visibility');
-        setAtualizar(Math.random() < 0.5)
+    }
+
+    const deletearAnotacao = async (e) => {
+        const id = e.target.className;
+        const anotacaoRef = document.querySelector(`.anotacao-${id}`);
+        const info = {
+            tipo: "deletar",
+            conteudo: anotacaoRef.innerHTML
+        }
+
+        await Api.post("/anotacoes/database", info);
     }
 
     return (
@@ -49,13 +63,14 @@ export default function Bloco() {
                 </div>
             </div>
             <div className="bloco__lista">
-                <ul>
-                    {
-                        anotacoes.map(( anotacao, i ) => (
-                            <li key={i}>{anotacao.conteudo}</li>
-                        ))
-                    }
-                </ul>
+                {
+                    anotacoes.map(( anotacao, i ) => (
+                        <div key={i} className="bloco__lista__anotacao">
+                            <li className={`anotacao-id-${i}`}>{anotacao.conteudo}</li>
+                            <button className={`id-${i}`} onClick={(e) => {deletearAnotacao(e)}}>X</button>
+                        </div>
+                    ))
+                }
             </div>
         </section>
     )
