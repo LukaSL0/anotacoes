@@ -55,7 +55,7 @@ export default function Bloco() {
 
         try {
             const res = await Api.delete(`/anotacoes/database/${encodeURIComponent(idEnviado)}`);
-            location.reload();
+            window.location.reload();
         }
         catch (err) {
             console.log(err);
