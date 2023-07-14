@@ -1,0 +1,19 @@
+.pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30%;
+
+    button {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        color: rgb(58, 58, 58);
+        cursor: pointer;
+        background-color: rgba(50, 0, 90, 0.4);
+        border: none;
+        transition: all 0.25s linear;
+        &:hover {
+            background-color: rgba(74, 0, 134, 0.5);
+        }
+    }
+}
