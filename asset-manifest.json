@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/anotacoes/static/css/main.d9efa791.css",
-    "main.js": "/anotacoes/static/js/main.9374c721.js",
+    "main.js": "/anotacoes/static/js/main.c8845030.js",
     "index.html": "/anotacoes/index.html"
   },
   "entrypoints": [
     "static/css/main.d9efa791.css",
-    "static/js/main.9374c721.js"
+    "static/js/main.c8845030.js"
   ]
 }
