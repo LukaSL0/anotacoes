@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
+import Pagination from "./modules/pagination.js";
 import autosize from "autosize";
 import Api from "../Api.js";
 
 export default function Bloco() {
     
     const [anotacoes, setAnotacoes] = useState([]);
+    const [trigger, setTrigger] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,7 +19,7 @@ export default function Bloco() {
             }
         }
         fetchData();
-    })
+    }, [trigger])
 
     const toggleInput = () => {
         const input = document.querySelector('.conteudo');
@@ -39,6 +41,7 @@ export default function Bloco() {
             const res = await Api.post(`/anotacoes/database/`, info);
             input.classList.toggle('visibility');
             input.value = "";
+            setTrigger((prevTrigger) => prevTrigger + 1);
         }
         catch (err) {
             console.log(err);
@@ -52,6 +55,7 @@ export default function Bloco() {
 
         try {
             const res = await Api.delete(`/anotacoes/database/${encodeURIComponent(idEnviado)}`);
+            location.reload();
         }
         catch (err) {
             console.log(err);
@@ -116,6 +120,7 @@ export default function Bloco() {
             }
 
             const res = await Api.put(`/anotacoes/database/${encodeURIComponent(idEnviado)}`, info);
+            setTrigger((prevTrigger) => prevTrigger + 1);
         }
         catch (err) {
             console.log(err);
@@ -137,16 +142,18 @@ export default function Bloco() {
                 </div>
             </div>
             <div className="bloco__lista">
-                {
-                    anotacoes.map(( anotacao, i ) => (
-                        <div key={i} className="bloco__lista__anotacao">
-                            <textarea defaultValue={anotacao.conteudo} onKeyDown={(e) => {cancelarEdicao(e, i)}} readOnly={true} id={anotacao._id} className={`anotacao-id-${i}`}></textarea>
-                            <button className={`botaoConfirm-${i} botoesConfirm`} id={`${i}`} onClick={(e) => {enviarEdicao(e)}}><i className="fa-solid fa-check" /></button>
-                            <button className={`botaoEdit-${i}`} id={`${i}`} onClick={(e) => {editarAnotacao(e)}}><i className="fa-solid fa-pencil" /></button>
-                            <button className={`botaoDelete-${i}`} id={`${i}`} onClick={(e) => {deletearAnotacao(e)}}><i className="fa-solid fa-circle-xmark" /></button>
-                        </div>
-                    ))
-                }
+                <Pagination>
+                    {
+                        anotacoes.map(( anotacao, i ) => (
+                            <div key={i} className="bloco__lista__anotacao">
+                                <textarea defaultValue={anotacao.conteudo} onKeyDown={(e) => {cancelarEdicao(e, i)}} readOnly={true} id={anotacao._id} className={`anotacao-id-${i}`}></textarea>
+                                <button className={`botaoConfirm-${i} botoesConfirm`} id={`${i}`} onClick={(e) => {enviarEdicao(e)}}><i className="fa-solid fa-check" /></button>
+                                <button className={`botaoEdit-${i}`} id={`${i}`} onClick={(e) => {editarAnotacao(e)}}><i className="fa-solid fa-pencil" /></button>
+                                <button className={`botaoDelete-${i}`} id={`${i}`} onClick={(e) => {deletearAnotacao(e)}}><i className="fa-solid fa-circle-xmark" /></button>
+                            </div>
+                        ))
+                    }
+                </Pagination>
             </div>
         </section>
     )

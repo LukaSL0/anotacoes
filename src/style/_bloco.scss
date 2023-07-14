@@ -52,6 +52,13 @@
                 &:focus {
                     background-color: rgba(11, 82, 129, 0.7);
                 }
+                @include responsive(415px) {
+                    font-size: 9px;
+                    margin-left: -300px;
+                    margin-top: 1.5px;
+                    padding: 1% 2%;
+                    width: 110px;
+                }
             }
 
             button {
@@ -82,8 +89,11 @@
         &__anotacao {
             display: flex;
             padding: 2% 2% 1% 2%;
-            &:first-child {
-                padding: 3% 2% 1% 2%;
+            @include responsive(415px) {
+                padding: 3% 2.5% 1% 2.5%;
+                &:first-child {
+                    padding: 3% 2.5% 1% 2.5%;
+                }
             }
 
             textarea {
