@@ -6,6 +6,9 @@
     border-radius: 15px 15px 10px 10px;
     height: auto;
     width: 70%;
+    @include responsive(415px) {
+        width: 85%;
+    }
 
     &__header {
         display: flex;
@@ -14,6 +17,9 @@
         border-radius: 10px 10px 0 0;
         padding: 2% 6%;
         align-items: center;
+        @include responsive(415px) {
+            padding: 3.5% 6%;
+        }
 
         h1 {
             flex-grow: 1;
@@ -22,6 +28,10 @@
             font-size: 35px;
             letter-spacing: 1px;
             text-align: center;
+            @include responsive(415px) {
+                font-size: 17px;
+                margin-left: 22px;
+            }
         }
 
         &__adicionar {
@@ -59,6 +69,11 @@
                 &:hover {
                     background-color: rgba(68, 80, 255, 0.5);
                 }
+                @include responsive(415px) {
+                    width: 22px;
+                    height: 22px;
+                    font-size: 17px;
+                }
             }
         }
     }
@@ -67,6 +82,9 @@
         &__anotacao {
             display: flex;
             padding: 2% 2% 1% 2%;
+            &:first-child {
+                padding: 3% 2% 1% 2%;
+            }
 
             textarea {
                 resize: none;
@@ -74,9 +92,17 @@
                 outline: none;
                 width: 90%;
                 overflow: hidden;
+                @include responsive(415px) {
+                    width: 83%;
+                    height: 22px;
+                    font-size: 10.5px;
+                }
             }
 
             button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 cursor: pointer;
                 width: 40px;
                 height: 40px;
@@ -87,6 +113,15 @@
                 background-color: rgba(9, 118, 190, 0.4);
                 &:hover {
                     background-color: rgba(9, 109, 175, 0.45);
+                }
+                @include responsive(415px) {
+                    width: 22px;
+                    height: 22px;
+                }
+                i {
+                    @include responsive(415px) {
+                        font-size: 9px;
+                    }
                 }
             }
 

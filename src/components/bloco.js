@@ -140,7 +140,7 @@ export default function Bloco() {
                 {
                     anotacoes.map(( anotacao, i ) => (
                         <div key={i} className="bloco__lista__anotacao">
-                            <textarea rows={`3`} defaultValue={anotacao.conteudo} onKeyDown={(e) => {cancelarEdicao(e, i)}} readOnly={true} id={anotacao._id} className={`anotacao-id-${i}`}></textarea>
+                            <textarea defaultValue={anotacao.conteudo} onKeyDown={(e) => {cancelarEdicao(e, i)}} readOnly={true} id={anotacao._id} className={`anotacao-id-${i}`}></textarea>
                             <button className={`botaoConfirm-${i} botoesConfirm`} id={`${i}`} onClick={(e) => {enviarEdicao(e)}}><i className="fa-solid fa-check" /></button>
                             <button className={`botaoEdit-${i}`} id={`${i}`} onClick={(e) => {editarAnotacao(e)}}><i className="fa-solid fa-pencil" /></button>
                             <button className={`botaoDelete-${i}`} id={`${i}`} onClick={(e) => {deletearAnotacao(e)}}><i className="fa-solid fa-circle-xmark" /></button>
