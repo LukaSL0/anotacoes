@@ -88,7 +88,7 @@ export default function Bloco() {
             anotacaoRef.readOnly = true;
 
             try {
-                const res = await Api.get('/anotacoes');
+                const res = await Api.get('/anotacoes/lista');
                 const { data } = res;
                 const acharAnotacao = data.find(anotacao => anotacao._id === id);
                 if (acharAnotacao) {
