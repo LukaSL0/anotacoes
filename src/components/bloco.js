@@ -11,7 +11,7 @@ export default function Bloco() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await Api.get('/anotacoes')
+                const res = await Api.get('/anotacoes/lista')
                 const { data } = res;
                 setAnotacoes(data);
             } catch (err) {
